@@ -1,0 +1,66 @@
+// manifests에 추가
+/*
+<uses-permission android:name="android.permission.CALL_PHONE" /> <!-- 전화걸기 권한 -->
+*/
+
+package kr.co.yeaeun.viewbasic
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.util.Log
+import android.view.*
+import android.view.View.inflate
+import android.widget.*
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import kotlinx.android.synthetic.main.activity_main.*
+
+class MainActivity : AppCompatActivity() {
+
+    // 권한 확인
+    val permission_list = arrayOf(
+        Manifest.permission.CALL_PHONE
+    )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        requestPermissions(permission_list, 0)
+
+        button.setOnClickListener{
+            val uri = Uri.parse("geo:37.243243,313.861601") // 위도와 경도 설정(스키마 geo로)
+            val intent = Intent(Intent.ACTION_VIEW,uri) // ACTION_VIEW: 무엇을 보여준다는 의미
+            startActivity(intent)
+        }
+
+        button2.setOnClickListener{
+            val uri = Uri.parse("https://developer.android.com")
+            val intent = Intent(Intent.ACTION_VIEW,uri) // 구글 맵 보여지는 것과 동일한 인자
+            startActivity(intent)
+        }
+
+        button3.setOnClickListener{
+            val uri = Uri.parse("tel:12341234")
+            val intent = Intent(Intent.ACTION_DIAL,uri)
+            startActivity(intent)
+        }
+
+        button4.setOnClickListener{
+            val uri = Uri.parse("geo:37.243243,313.861601")
+            val intent = Intent(Intent.ACTION_CALL,uri) // 권한 설정 필요
+            startActivity(intent)
+        }
+
+
+    }
+
+}
