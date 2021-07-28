@@ -1,0 +1,72 @@
+package kr.co.yeaeun.viewbasic
+
+import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.net.Uri
+import android.os.*
+import android.util.Log
+import android.view.*
+import android.view.View.inflate
+import android.widget.*
+import androidx.core.app.NotificationCompat
+import androidx.core.app.Person
+import androidx.core.content.getSystemService
+import androidx.core.graphics.drawable.IconCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.concurrent.thread
+
+class MainActivity : AppCompatActivity() {
+
+    var isRunning = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        button.setOnClickListener{
+            // 시간을 밀리세컨트 단위로 구하기
+            val now = System.currentTimeMillis()
+            textView.text = "버튼 클릭 : $now"
+        }
+
+        // while문을 도느라 화면 메인 액티비티 처리를 전혀 하지 못함
+//        while(true){
+//            SystemClock.sleep(100) // 쉬는 것도 Main에서 작업을 해주는 것이기 때문에 화면 작업을 해줄 수 X
+//            val now2 = System.currentTimeMillis()
+//            Log.d("test","while 문: $now2")
+//        }
+
+        // Looper.myLooper(): 작업 요청이 들어오면 대기하고 있다가 작업을 처리해줌
+        val handler = Handler(Looper.myLooper()!!)
+        val thread1 = object : Thread(){
+            override fun run() { // 5초 이상 걸리는 작업 지양
+                super.run()
+
+                //SystemClock.sleep(100)
+                val now2 = System.currentTimeMillis()
+                textView2.text = "handler : $now2"
+
+                //handler.post(this) // thread 작업 반복
+                handler.postDelayed(this,100)
+            }
+       }
+        //handler.post(thread1)
+        handler.postDelayed(thread1,100) // thread 안에 sleep을 넣은 것과 똑같은 효과
+
+    }
+}
