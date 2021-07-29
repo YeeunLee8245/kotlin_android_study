@@ -1,0 +1,94 @@
+package kr.co.yeaeun.viewbasic
+
+import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.net.Uri
+import android.os.*
+import android.util.Log
+import android.view.*
+import android.view.View.inflate
+import android.widget.*
+import androidx.core.app.NotificationCompat
+import androidx.core.app.Person
+import androidx.core.content.getSystemService
+import androidx.core.graphics.drawable.IconCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.concurrent.thread
+
+class MainActivity : AppCompatActivity() {
+
+    var isRunning = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        button.setOnClickListener{
+            // 현재 시간을 밀리세컨트 단위로 구하기
+            val now = System.currentTimeMillis()
+            textView.text = "버튼 클릭 : $now"
+        }
+
+        // 화면 처리를 위한 핸들러
+        val handler1 = object : Handler(Looper.myLooper()!!){
+            // OS에게 핸들러 처리 요청, 이 작업은 Main Thread가 진행함
+            // 매개변수 msg로 handle의 작업을 구분할 수 있음
+            override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+
+                when(msg.what){
+                    0 -> {
+                        textView2.text = "Handler 0"
+                    }
+                    1 -> {
+                        textView2.text = "Handler 1"
+                    }
+                    2 -> {
+                        textView2.text = "Handler 2 : ${msg.arg1}, ${msg.arg2}, ${msg.obj}"
+                    }
+                }
+//                val now3 = System.currentTimeMillis()
+//                textView2.text = "핸들러 : $now3"
+            }
+        }
+
+        // 오래 걸리는 작업: 반드시 thread로 운영해주기
+        isRunning = true
+        thread{ // 내부에서 화면 변경이 필요할 때 handler를 사용해 요청
+            while(isRunning){
+                val now2 = System.currentTimeMillis()
+                Log.d("test","오래 걸리는 작업 : $now2")
+                SystemClock.sleep(500)
+
+                handler1.sendEmptyMessage(0) // 핸들러 호출(Main Thread가 호출하기 때문에 Main Trhead에서 처리)
+
+                SystemClock.sleep(500)
+                handler1.sendEmptyMessage(1)
+
+                SystemClock.sleep(500)
+                // handler에 데이터를 전달(정수 2개, 객체 1개 셋팅 가능)
+                val msg = Message()
+                msg.what = 2
+                msg.arg1 = 100
+                msg.arg2 = 200
+                msg.obj = "객체"
+                handler1.sendMessage(msg)
+            }
+        }
+    }
+}
