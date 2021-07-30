@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 startService(serviceIntent)
             }
         }
-        // 서비스에 접속한다.
+        // 서비스에 접속할 수 있도록 한다.
         // connection 셋팅
         bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
 
