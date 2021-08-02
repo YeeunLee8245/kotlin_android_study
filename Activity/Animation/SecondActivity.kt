@@ -18,6 +18,7 @@ class SecondActivity : AppCompatActivity() {
    override fun onBackPressed() {
         // 부모 클래스의 메소드를 호출해서 Activity를 종료시키기 때문에 삭제하자
         //super.onBackPressed()
+       finishActivity()
     }
 
     fun finishActivity(){
