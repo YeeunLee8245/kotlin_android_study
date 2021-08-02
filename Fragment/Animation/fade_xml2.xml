@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 보이다가 사라질 때 -->
+    <objectAnimator
+        android:propertyName="alpha"
+        android:valueType="floatType"
+        android:valueFrom="1"
+        android:valueTo="0"
+        android:duration="500"/>
+</set>
