@@ -18,6 +18,7 @@ class ReadFileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_read_file)
 
         try {
+            // 경로와 파일 이름이 존재하는지, 올바른지 꼭 제대로 확인하자.
             val file: File = File(getExternalFilesDir(null)?.absolutePath+"/myApp/myfile.txt")//(getExternalFilesDir(null)?.absolutePath+"/myApp/myfile.txt")
             Log.d("file_test","${file.toString()}")
             val reader: BufferedReader = BufferedReader(FileReader(file))
