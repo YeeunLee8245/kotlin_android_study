@@ -37,7 +37,8 @@ class Lab20_2Activity : AppCompatActivity(), View.OnClickListener {
         //filePath = Environment.getExternalStorageDirectory().absolutePath + "/Music/music.mp3"
         // Android 10이상에서는 외부저장소에 대해 Scoped storage 모드로 동작함
         // 기존 외부저장소의 공통 저장 공간이 모두 사라지고 개별 앱공간이 격리된다는 뜻
-        filePath = getExternalFilesDir(null)?.absolutePath+"/music.mp3"
+        filePath = getExternalFilesDir(null)?.absolutePath+"/music.mp3" // 서버쪽 앱 데이터를 사용해야되는데 클라이언트 데이터를 사용해서(이어짐)
+        // 안되는듯 그래서 서버 앱에 데이터를 저장하려해봤지만 어째선지 Android/data/kr.co.yeaeun.test_aidl 폴더가 만들어지지 않는다.
         Log.d("경로1:",filePath)
         val intent = Intent("kr.co.yeaeun.ACTION_PLAY")
         Log.d("시작4:", intent.toString())
