@@ -1,5 +1,5 @@
 // IPlayService.aidl
-package kr.co.yeaeun.helper;
+package kr.co.yeaeun.test_aidl;
 
 // Declare any non-default types here with import statements
 
